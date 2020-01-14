@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Lee2son\\RedisExServiceProvider\\": "src/"
+            "Lee2son\\RedisEx\\": "src/"
         },
         "files": [
         ]
@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lee2son\\ServiceProvider"
+                "Lee2son\\RedisEx\\ServiceProvider"
             ],
             "aliases": {
 
