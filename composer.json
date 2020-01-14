@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lee2son\\RedisExServiceProvider"
+                "Lee2son\\ServiceProvider"
             ],
             "aliases": {
 

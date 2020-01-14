@@ -6,7 +6,7 @@ use Lee2son\RedisEx\Connectors\PhpRedisConnector;
 use Lee2son\RedisEx\Connectors\PredisConnector;
 use Illuminate\Support\Facades\Redis;
 
-class ExtendServiceProvider extends \Illuminate\Redis\RedisServiceProvider
+class ServiceProvider extends \Illuminate\Redis\RedisServiceProvider
 {
     /**
      * Bootstrap any application services.
