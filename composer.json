@@ -1,0 +1,40 @@
+{
+    "name": "lee2son/laravel-redis-ex",
+    "description": "Super laravel.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lixx",
+            "email": "sss60@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lee2son\\RedisExServiceProvider\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "require-dev": {
+
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lee2son\\RedisExServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}
