@@ -5,14 +5,18 @@ namespace Lee2son\RedisEx\Connectors;
 use Illuminate\Support\Arr;
 use Lee2son\RedisEx\Connections\PhpRedisClusterConnection;
 use Lee2son\RedisEx\Connections\PhpRedisConnection;
-use RedisCluster;
 
 class PhpRedisConnector extends \Illuminate\Redis\Connectors\PhpRedisConnector
 {
     /**
-     * @var string
+     * @var string PhpRedisConnection class name
      */
-    public static $clientClass = RedisCluster::class;
+    public static $phpRedisConnectionClass = PhpRedisConnection::class;
+
+    /**
+     * @var string PhpRedisClusterConnection class name
+     */
+    public static $phpRedisClusterConnectionClass = PhpRedisClusterConnection::class;
 
     /**
      * Create a new clustered PhpRedis connection.
@@ -23,7 +27,7 @@ class PhpRedisConnector extends \Illuminate\Redis\Connectors\PhpRedisConnector
      */
     public function connect(array $config, array $options)
     {
-        return new PhpRedisConnection($this->createClient(array_merge(
+        return new static::$phpRedisConnectionClass($this->createClient(array_merge(
             $config, $options, Arr::pull($config, 'options', [])
         )));
     }
@@ -40,37 +44,8 @@ class PhpRedisConnector extends \Illuminate\Redis\Connectors\PhpRedisConnector
     {
         $options = array_merge($options, $clusterOptions, Arr::pull($config, 'options', []));
 
-        return new PhpRedisClusterConnection($this->createRedisClusterInstance(
+        return new static::$phpRedisClusterConnectionClass($this->createRedisClusterInstance(
             array_map([$this, 'buildClusterConnectionString'], $config), $options
         ));
-    }
-
-    /**
-     * Create a new redis cluster instance.
-     *
-     * @param  array  $servers
-     * @param  array  $options
-     * @return \RedisCluster
-     */
-    protected function createRedisClusterInstance(array $servers, array $options)
-    {
-        if (version_compare(phpversion('redis'), '4.3.0', '>=')) {
-            return new static::$clientClass(
-                null,
-                array_values($servers),
-                $options['timeout'] ?? 0,
-                $options['read_timeout'] ?? 0,
-                isset($options['persistent']) && $options['persistent'],
-                $options['password'] ?? null
-            );
-        }
-
-        return new static::$clientClass(
-            null,
-            array_values($servers),
-            $options['timeout'] ?? 0,
-            $options['read_timeout'] ?? 0,
-            isset($options['persistent']) && $options['persistent']
-        );
     }
 }

@@ -13,12 +13,17 @@ use Predis\Client;
  * @package Lee2son\RedisEx\Connectors
  * @see \Illuminate\Redis\Connectors\PredisConnector
  */
-class PredisConnector/* extends \Illuminate\Redis\Connectors\PredisConnector*/ implements Connector
+class PredisConnector implements Connector
 {
     /**
-     * @var string
+     * @var string PredisConnection class name
      */
-    public static $clientClass = Client::class;
+    public static $predisConnectionClass = PredisConnection::class;
+
+    /**
+     * @var string PredisClusterConnection class name
+     */
+    public static $predisClusterConnectionClass = PredisClusterConnection::class;
 
     /**
      * Create a new clustered Predis connection.
@@ -33,7 +38,7 @@ class PredisConnector/* extends \Illuminate\Redis\Connectors\PredisConnector*/ i
             ['timeout' => 10.0], $options, Arr::pull($config, 'options', [])
         );
 
-        return new PredisConnection($this->createClient($config, $formattedOptions));
+        return new static::$predisConnectionClass(new Client($config, $formattedOptions));
     }
 
     /**
@@ -48,21 +53,8 @@ class PredisConnector/* extends \Illuminate\Redis\Connectors\PredisConnector*/ i
     {
         $clusterSpecificOptions = Arr::pull($config, 'options', []);
 
-        return new PredisClusterConnection($this->createClient(array_values($config), array_merge(
+        return new static::$predisClusterConnectionClass(new Client(array_values($config), array_merge(
             $options, $clusterOptions, $clusterSpecificOptions
         )));
-    }
-
-    /**
-     * Create a predis-client
-     *
-     * @param null $parameters
-     * @param null $options
-     * @return Client
-     */
-    public function createClient($parameters = null, $options = null): Client
-    {
-        $client = static::$clientClass;
-        return new $client($parameters, $options);
     }
 }
