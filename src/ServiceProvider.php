@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Redis;
 class ServiceProvider extends \Illuminate\Redis\RedisServiceProvider
 {
     /**
-     * Bootstrap any application services.
+     * Register any application services.
      * @return void
      */
-    public function boot()
+    public function register()
     {
+        parent::register();
+        
         Redis::extend('predis', function() {
             return new PredisConnector();
         });
@@ -21,16 +23,5 @@ class ServiceProvider extends \Illuminate\Redis\RedisServiceProvider
         Redis::extend('phpredis', function() {
             return new PhpRedisConnector();
         });
-
-        parent::boot();
-    }
-
-    /**
-     * Register any application services.
-     * @return void
-     */
-    public function register()
-    {
-        parent::register();
     }
 }

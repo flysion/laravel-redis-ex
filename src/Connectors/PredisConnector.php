@@ -8,6 +8,11 @@ use Illuminate\Contracts\Redis\Connector;
 use Illuminate\Support\Arr;
 use Predis\Client;
 
+/**
+ * Class PredisConnector
+ * @package Lee2son\RedisEx\Connectors
+ * @see \Illuminate\Redis\Connectors\PredisConnector
+ */
 class PredisConnector/* extends \Illuminate\Redis\Connectors\PredisConnector*/ implements Connector
 {
     /**
